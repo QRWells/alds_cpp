@@ -5,6 +5,7 @@
 
 #include <sstream>
 
+namespace alds {
 template <class T> struct Node {
 public:
   Node(T data) : data_(data) {}
@@ -21,7 +22,7 @@ public:
 private:
   alignas(sizeof(void *)) T data_;
   alignas(sizeof(void *)) Node<T> *next_{nullptr};
-  Node<T> *prev_{nullptr};
+  alignas(sizeof(void *)) Node<T> *prev_{nullptr};
 };
 
 template <class T> class DoublyLinkedList {
@@ -106,23 +107,39 @@ public:
   auto GetHead() -> Node<T> * { return head_; }
   auto GetTail() -> Node<T> * { return tail_; }
 
-  auto ToString() -> std::string {
+  friend auto operator<<(std::ostream &os, DoublyLinkedList<T> const &list)
+      -> std::ostream & {
+    auto current = list.head_;
     std::stringstream ss;
-
     ss << "[";
-    auto current = head_;
     while (current) {
-      ss << current->GetData() << ", ";
+      ss << current->GetData();
+      if (current->GetNext()) {
+        ss << ", ";
+      }
       current = current->GetNext();
     }
-    ss.seekp(-2, std::ios_base::end);
     ss << "]";
-    auto res = ss.str();
-    res.pop_back();
-    return res;
+    return os << ss.str();
+  }
+
+  auto ToString() -> std::string {
+    auto current = head_;
+    std::stringstream ss;
+    ss << "[";
+    while (current) {
+      ss << current->GetData();
+      if (current->GetNext()) {
+        ss << ", ";
+      }
+      current = current->GetNext();
+    }
+    ss << "]";
+    return ss.str();
   }
 
 private:
   Node<T> *head_{nullptr};
   Node<T> *tail_{nullptr};
 };
+} // namespace alds

@@ -24,6 +24,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 # Include directories
 add_subdirectory(src)
 add_subdirectory(benchmarks)
+add_subdirectory(examples)
 
 enable_testing()
 add_subdirectory(tests)

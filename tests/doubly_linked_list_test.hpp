@@ -3,6 +3,8 @@
 
 #include "doubly_linked_list.hpp"
 
+using namespace alds;
+
 TEST_CASE("double linked list") {
   auto list = DoublyLinkedList<int>{};
 

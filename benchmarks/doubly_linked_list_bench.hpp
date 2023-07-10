@@ -2,6 +2,8 @@
 
 #include "doubly_linked_list.hpp"
 
+using namespace alds;
+
 inline auto BenchDLLBack(benchmark::State& state) {
   auto list = DoublyLinkedList<int>{};
   for (auto _ : state){
